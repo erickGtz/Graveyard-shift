@@ -11,7 +11,11 @@ public class WindowManager : MonoBehaviour
     private RectTransform desktopArea;
 
     [SerializeField]
-    private float spawnInterval = 3.0f, timer;
+    private float spawnInterval = 2.0f, timer;
+
+    [SerializeField]
+    private int maxWindowsAllowed = 5;
+
 
     [SerializeField]
     private float minDistance = 200f; // Distancia mínima entre la nueva ventana y la anterior
@@ -21,6 +25,13 @@ public class WindowManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (desktopArea.childCount >= maxWindowsAllowed)
+        {
+            Debug.Log("GAME OVER!");
+            enabled = false;
+            return;
+        }
+
         timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
@@ -50,7 +61,7 @@ public class WindowManager : MonoBehaviour
             float randomY = Random.Range(-limiteY, limiteY);
             randomPos = new Vector2(randomX, randomY);
             attempt++;
-        } 
+        }
         while (Vector2.Distance(randomPos, lastSpawnPosition) < minDistance && attempt < maxAttempts);
 
         lastSpawnPosition = randomPos; // Guardamos esta posición para la siguiente ventana
