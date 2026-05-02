@@ -32,7 +32,16 @@ public class WindowManager : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (timer >= spawnInterval)
+
+        float currentInterval = spawnInterval;
+        if (TimeTravelManager.Instance != null)
+        {
+            currentInterval -= (TimeTravelManager.Instance.weirdnessLevel * 0.5f);
+
+            if (currentInterval < 0.5f) currentInterval = 0.5f;
+        }
+
+        if (timer >= currentInterval)
         {
             SpawnWindow();
             timer = 0.0f;
@@ -67,5 +76,32 @@ public class WindowManager : MonoBehaviour
 
         lastSpawnPosition = randomPos;
         windowRectTransform.anchoredPosition = randomPos;
+
+        if (TimeTravelManager.Instance != null)
+        {
+            int weirdness = TimeTravelManager.Instance.weirdnessLevel;
+            if (weirdness >= 1)
+            {
+                float randomZ = Random.Range(-45f, 45f);
+                if (Random.value > 0.8f) randomZ += 180f;
+                windowRectTransform.localEulerAngles = new Vector3(0, 0, randomZ);
+            }
+
+            if (weirdness >= 2)
+            {
+                newWindow.AddComponent<WindowBouncer>();
+            }
+        }
+
     }
+
+    public void ClearAllWindows()
+    {
+        foreach (Transform child in desktopArea)
+        {
+            Destroy(child.gameObject);
+        }
+        timer = 0f;
+    }
+
 }

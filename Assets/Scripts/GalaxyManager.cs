@@ -92,4 +92,11 @@ public class GalaxyManager : MonoBehaviour
         }
     }
 
+    public void ResetStability()
+    {
+        currentStability = maxStability;
+        if (stabilitySlider != null) stabilitySlider.value = currentStability;
+    }
+
+
 }

@@ -63,6 +63,13 @@ public class TamagotchiManager : MonoBehaviour
         }
     }
 
+    public void ResetHunger()
+    {
+        currentHunger = maxHunger;
+        UpdatePieChart();
+    }
+
+
     private void Die()
     {
         isDead = true;

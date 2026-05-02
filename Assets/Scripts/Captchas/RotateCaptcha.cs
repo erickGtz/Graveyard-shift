@@ -34,10 +34,8 @@ public class RotateCaptcha : MonoBehaviour
 
     public void CheckRotation()
     {
-        // Revisamos la distancia con la "cabeza" original
         float difference1 = Mathf.Abs(Mathf.DeltaAngle(rotationSlider.value, targetAngle));
-        
-        // Revisamos la distancia con la "cola" (+180 grados) por si la imagen es simétrica
+
         float difference2 = Mathf.Abs(Mathf.DeltaAngle(rotationSlider.value, targetAngle + 180f));
 
         if (difference1 <= tolerance || difference2 <= tolerance)
