@@ -432,6 +432,7 @@ MonoBehaviour:
   windowPrefab:
   - {fileID: 408874275682776687, guid: b27ceb61d0607174f8194a26928ba872, type: 3}
   - {fileID: 408874275682776687, guid: 6e260fc33a0876a4d8a0c60f3be5fd94, type: 3}
+  - {fileID: 408874275682776687, guid: cffc1db25be7cf74d9820df900417d7c, type: 3}
   desktopArea: {fileID: 449737029}
   spawnInterval: 2
   timer: 0
