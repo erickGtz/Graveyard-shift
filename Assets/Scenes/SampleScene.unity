@@ -390,11 +390,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c269aba70d49b904180edb8db8144e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowPrefab: {fileID: 408874275682776687, guid: da9b1f01699efa94abc172c8c9234b44, type: 3}
+  windowPrefab:
+  - {fileID: 408874275682776687, guid: b27ceb61d0607174f8194a26928ba872, type: 3}
   desktopArea: {fileID: 449737029}
   spawnInterval: 2
   timer: 0
-  maxWindowsAllowed: 30
+  maxWindowsAllowed: 50
   minDistance: 200
 --- !u!4 &360043161
 Transform:
@@ -1956,7 +1957,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 619394802}
-  - {fileID: 589841391}
   - {fileID: 144286001}
   - {fileID: 360043161}
+  - {fileID: 619394802}
+  - {fileID: 589841391}

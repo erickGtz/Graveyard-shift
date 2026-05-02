@@ -5,7 +5,7 @@ using UnityEngine;
 public class WindowManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject windowPrefab;
+    private GameObject[] windowPrefab;
 
     [SerializeField]
     private RectTransform desktopArea;
@@ -41,7 +41,9 @@ public class WindowManager : MonoBehaviour
 
     private void SpawnWindow()
     {
-        GameObject newWindow = Instantiate(windowPrefab, desktopArea);
+        int randomIndex = Random.Range(0, windowPrefab.Length);
+
+        GameObject newWindow = Instantiate(windowPrefab[randomIndex], desktopArea);
         RectTransform windowRectTransform = newWindow.GetComponent<RectTransform>();
 
         float limiteX = desktopArea.rect.width / 2.0f;
