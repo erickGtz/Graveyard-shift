@@ -14,20 +14,19 @@ public class WindowManager : MonoBehaviour
     private float spawnInterval = 2.0f, timer;
 
     [SerializeField]
-    private int maxWindowsAllowed = 5;
+    private int maxWindowsAllowed = 30;
 
 
     [SerializeField]
-    private float minDistance = 200f; // Distancia mínima entre la nueva ventana y la anterior
+    private float minDistance = 200f;
 
     private Vector2 lastSpawnPosition = new Vector2(-9999f, -9999f);
 
-    // Update is called once per frame
     void Update()
     {
         if (desktopArea.childCount >= maxWindowsAllowed)
         {
-            Debug.Log("GAME OVER!");
+            Debug.Log("GAME OVER! en WindowManager Updated");
             enabled = false;
             return;
         }
@@ -52,7 +51,7 @@ public class WindowManager : MonoBehaviour
         limiteY -= windowRectTransform.rect.height / 2.0f;
 
         Vector2 randomPos;
-        int maxAttempts = 10; // Evita bucles infinitos si la pantalla es muy chica
+        int maxAttempts = 10;
         int attempt = 0;
 
         do
@@ -64,7 +63,7 @@ public class WindowManager : MonoBehaviour
         }
         while (Vector2.Distance(randomPos, lastSpawnPosition) < minDistance && attempt < maxAttempts);
 
-        lastSpawnPosition = randomPos; // Guardamos esta posición para la siguiente ventana
+        lastSpawnPosition = randomPos;
         windowRectTransform.anchoredPosition = randomPos;
     }
 }
