@@ -5,42 +5,62 @@ using UnityEngine.UI;
 
 public class TamagotchiManager : MonoBehaviour
 {
-    [SerializeField] private Slider hungerSlider;
+    [SerializeField] private Image hungerPieChart;
     [SerializeField] private float maxHunger = 20f;
     [SerializeField] private float hungerDrainRate = 5f;
+    [SerializeField] private float eatingSpeed = 10f;
+
     private float currentHunger;
     private bool isDead = false;
+    private bool isEating = false;
 
     void Start()
     {
         currentHunger = maxHunger;
-
-        hungerSlider.maxValue = maxHunger;
-        hungerSlider.value = currentHunger;
+        UpdatePieChart();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isDead) return;
 
-        currentHunger -= hungerDrainRate * Time.deltaTime;
-
-        // Actualizar la barra visual
-        hungerSlider.value = currentHunger;
-        // ¡Game Over si llega a cero!
-        if (currentHunger <= 0)
+        if (isEating)
         {
-            currentHunger = 0;
-            Die();
+            currentHunger += eatingSpeed * Time.deltaTime;
+
+            if (currentHunger >= maxHunger)
+            {
+                currentHunger = maxHunger;
+                isEating = false;
+            }
         }
+        else
+        {
+            currentHunger -= hungerDrainRate * Time.deltaTime;
+
+            if (currentHunger <= 0)
+            {
+                currentHunger = 0;
+                Die();
+            }
+        }
+
+        UpdatePieChart();
     }
 
     public void FeedBanana()
     {
-        if (isDead) return; // No puedes revivirlo a platanazos
-        currentHunger = maxHunger;
-        hungerSlider.value = currentHunger;
+        if (isDead || isEating) return;
+
+        isEating = true;
+    }
+
+    private void UpdatePieChart()
+    {
+        if (hungerPieChart != null)
+        {
+            hungerPieChart.fillAmount = currentHunger / maxHunger;
+        }
     }
 
     private void Die()
