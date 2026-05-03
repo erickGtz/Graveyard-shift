@@ -42,6 +42,10 @@ public class RotateCaptcha : MonoBehaviour
         {
             GetComponent<CaptchaWindow>().ResolveCaptcha();
         }
+        else
+        {
+            GetComponent<CaptchaWindow>().TriggerError();
+        }
     }
 }
 

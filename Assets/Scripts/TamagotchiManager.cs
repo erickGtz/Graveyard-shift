@@ -74,6 +74,7 @@ public class TamagotchiManager : MonoBehaviour
     {
         if (isDead || isEating) return;
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.monkeyEatSound);
         isEating = true;
     }
 
@@ -96,5 +97,9 @@ public class TamagotchiManager : MonoBehaviour
     {
         isDead = true;
         Debug.Log("GAME OVER! El chango murió.");
+        if (GameOverManager.Instance != null)
+        {
+            GameOverManager.Instance.TriggerGameOver("NEGLECTED THE OFFICE MONKEY");
+        }
     }
 }

@@ -24,6 +24,11 @@ public class TypingCaptcha : MonoBehaviour
         {
             GetComponent<CaptchaWindow>().ResolveCaptcha();
         }
+        else if (currentText.Length >= targetWord.Length)
+        {
+            GetComponent<CaptchaWindow>().TriggerError();
+            inputField.text = ""; // Borra el texto para que lo vuelva a intentar
+        }
     }
 
     private string GenerateRandomString(int length)

@@ -29,18 +29,32 @@ public class WindowManager : MonoBehaviour
         if (desktopArea.childCount >= maxWindowsAllowed)
         {
             Debug.Log("GAME OVER! en WindowManager Updated");
+            if (GameOverManager.Instance != null)
+            {
+                GameOverManager.Instance.TriggerGameOver("SYSTEM OVERLOAD (TOO MANY WINDOWS)");
+            }
             enabled = false;
             return;
         }
 
         timer += Time.deltaTime;
 
-        float currentInterval = spawnInterval;
+        // Dificultad Gradual Basada en el Tiempo Real
+        float timeElapsed = Time.timeSinceLevelLoad;
+        float baseInterval = spawnInterval;
+
+        // Escalada de dificultad:
+        if (timeElapsed > 120f) baseInterval = 1.0f; // A los 2 minutos, locura (1 segundo)
+        else if (timeElapsed > 60f) baseInterval = 1.5f; // Al minuto, rápido (1.5 segundos)
+        else if (timeElapsed > 30f) baseInterval = 2.0f; // A los 30 segundos, medio (2 segundos)
+        else baseInterval = 3.5f; // Al inicio (primeros 30 seg), lento y relajado (3.5 segundos)
+
+        float currentInterval = baseInterval;
+
         if (TimeTravelManager.Instance != null)
         {
             currentInterval -= (TimeTravelManager.Instance.weirdnessLevel * 0.5f);
-
-            if (currentInterval < 0.5f) currentInterval = 0.5f;
+            if (currentInterval < 0.5f) currentInterval = 0.5f; // Límite de velocidad
         }
 
         if (timer >= currentInterval)
@@ -74,13 +88,16 @@ public class WindowManager : MonoBehaviour
         GameObject newWindow = Instantiate(prefabToSpawn, desktopArea);
         newWindow.name = prefabToSpawn.name; // Limpiar el nombre de "(Clone)"
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.windowSpawnSound);
+
         RectTransform windowRectTransform = newWindow.GetComponent<RectTransform>();
 
         float limiteX = desktopArea.rect.width / 2.0f;
         float limiteY = desktopArea.rect.height / 2.0f;
 
-        limiteX -= windowRectTransform.rect.width / 2.0f;
-        limiteY -= windowRectTransform.rect.height / 2.0f;
+        limiteX -= (windowRectTransform.rect.width / 2.0f) + 100f;
+        limiteY -= (windowRectTransform.rect.height / 2.0f) + 100f;
+
 
         Vector2 randomPos;
         int maxAttempts = 10;

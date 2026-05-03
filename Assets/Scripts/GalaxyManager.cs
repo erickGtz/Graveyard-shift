@@ -66,6 +66,7 @@ public class GalaxyManager : MonoBehaviour
         currentGalaxies--;
         Debug.Log($"¡PUUFFF! Una galaxia explotó. Quedan: {currentGalaxies}");
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.explosionSound);
         if (ScreenShake.Instance != null) ScreenShake.Instance.TriggerShake();
 
         if (explosionPrefab != null && spaceArea != null)
@@ -100,6 +101,10 @@ public class GalaxyManager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("GAME OVER: Colapso Universal. Te despiden.");
+            if (GameOverManager.Instance != null)
+            {
+                GameOverManager.Instance.TriggerGameOver("UNIVERSAL COLLAPSE");
+            }
         }
         else
         {

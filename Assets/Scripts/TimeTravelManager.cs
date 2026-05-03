@@ -25,6 +25,7 @@ public class TimeTravelManager : MonoBehaviour
     [Header("Estado")]
     public int weirdnessLevel = 0;
     private int currentHour = 5;
+    private int currentMinute = 0;
 
     void Awake()
     {
@@ -43,9 +44,36 @@ public class TimeTravelManager : MonoBehaviour
         }
     }
 
+    private float clockTimer = 0f;
+
+    void Update()
+    {
+        clockTimer += Time.deltaTime;
+        
+        // Cada 10 segundos reales, avanza 15 minutos en el juego
+        if (clockTimer >= 10f)
+        {
+            clockTimer = 0f;
+            currentMinute += 15;
+
+            if (currentMinute >= 60)
+            {
+                currentMinute = 0;
+                currentHour++;
+                
+                // Si llega a las 13, se reinicia a la 1 (formato 12 horas)
+                if (currentHour > 12) currentHour = 1;
+            }
+            
+            UpdateClock();
+        }
+    }
+
     public void TriggerTimeTravel()
     {
         Debug.Log("¡VIAJE EN EL TIEMPO INICIADO!");
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.timeTravelSound);
+        
         weirdnessLevel++;
 
         if (weirdnessLevel == 2)
@@ -77,7 +105,7 @@ public class TimeTravelManager : MonoBehaviour
     {
         if (clockText != null)
         {
-            clockText.text = currentHour.ToString("00") + ":00 AM";
+            clockText.text = currentHour.ToString("00") + ":" + currentMinute.ToString("00") + " AM";
         }
     }
 
