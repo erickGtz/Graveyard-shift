@@ -17,7 +17,7 @@ public class WindowBouncer : MonoBehaviour
         Vector3 worldPos = rectTransform.position;
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f); // ¡El pivot también tiene que ir al centro!
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
         rectTransform.position = worldPos;
 
         direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
