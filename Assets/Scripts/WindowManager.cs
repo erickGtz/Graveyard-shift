@@ -8,6 +8,9 @@ public class WindowManager : MonoBehaviour
     private GameObject[] windowPrefab;
 
     [SerializeField]
+    private GameObject timeTravelAdPrefab; // Hueco exclusivo para el anuncio
+
+    [SerializeField]
     private RectTransform desktopArea;
 
     [SerializeField]
@@ -15,7 +18,6 @@ public class WindowManager : MonoBehaviour
 
     [SerializeField]
     private int maxWindowsAllowed = 30;
-
 
     [SerializeField]
     private float minDistance = 200f;
@@ -50,9 +52,28 @@ public class WindowManager : MonoBehaviour
 
     private void SpawnWindow()
     {
-        int randomIndex = Random.Range(0, windowPrefab.Length);
+        GameObject prefabToSpawn;
+        bool adExists = false;
 
-        GameObject newWindow = Instantiate(windowPrefab[randomIndex], desktopArea);
+        // Revisamos si ya hay un anuncio flotando para no spamearlo
+        foreach (Transform child in desktopArea)
+        {
+            if (child.name.Contains("TimeTravel")) adExists = true;
+        }
+
+        // 15% de probabilidad de salir el anuncio (solo si no hay uno ya)
+        if (timeTravelAdPrefab != null && !adExists && Random.value <= 0.15f)
+        {
+            prefabToSpawn = timeTravelAdPrefab;
+        }
+        else
+        {
+            prefabToSpawn = windowPrefab[Random.Range(0, windowPrefab.Length)];
+        }
+
+        GameObject newWindow = Instantiate(prefabToSpawn, desktopArea);
+        newWindow.name = prefabToSpawn.name; // Limpiar el nombre de "(Clone)"
+
         RectTransform windowRectTransform = newWindow.GetComponent<RectTransform>();
 
         float limiteX = desktopArea.rect.width / 2.0f;

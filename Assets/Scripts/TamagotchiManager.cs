@@ -10,6 +10,13 @@ public class TamagotchiManager : MonoBehaviour
     [SerializeField] private float hungerDrainRate = 5f;
     [SerializeField] private float eatingSpeed = 10f;
 
+    [Header("Sprites del Chango")]
+    [SerializeField] private Image monkeyImage;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite sadSprite;
+    [SerializeField] private Sprite eatingSprite;
+    [SerializeField] private Sprite deadSprite;
+
     private float currentHunger;
     private bool isDead = false;
     private bool isEating = false;
@@ -22,10 +29,16 @@ public class TamagotchiManager : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            if (monkeyImage != null && deadSprite != null) monkeyImage.sprite = deadSprite;
+            return;
+        }
 
         if (isEating)
         {
+            if (monkeyImage != null && eatingSprite != null) monkeyImage.sprite = eatingSprite;
+            
             currentHunger += eatingSpeed * Time.deltaTime;
 
             if (currentHunger >= maxHunger)
@@ -36,6 +49,15 @@ public class TamagotchiManager : MonoBehaviour
         }
         else
         {
+            // Cambiar a sprite triste si baja del 40%
+            if (monkeyImage != null)
+            {
+                if (currentHunger <= maxHunger * 0.4f)
+                    monkeyImage.sprite = sadSprite;
+                else
+                    monkeyImage.sprite = normalSprite;
+            }
+
             currentHunger -= hungerDrainRate * Time.deltaTime;
 
             if (currentHunger <= 0)

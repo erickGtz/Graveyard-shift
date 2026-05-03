@@ -85,15 +85,19 @@ public class TimeTravelManager : MonoBehaviour
     {
         flashImage.gameObject.SetActive(true);
         Color c = flashImage.color;
-        c.a = 1f;
+        
+        // Flasheo suave (40% opacidad) en vez de blanco puro para evitar epilepsia
+        float maxAlpha = 0.4f;
+        c.a = maxAlpha;
         flashImage.color = c;
+        
         float duration = 1.5f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            c.a = Mathf.Lerp(1f, 0f, elapsed / duration);
+            c.a = Mathf.Lerp(maxAlpha, 0f, elapsed / duration);
             flashImage.color = c;
             yield return null;
         }

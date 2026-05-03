@@ -11,7 +11,7 @@ public class TypingCaptcha : MonoBehaviour
     private string targetWord;
     void Start()
     {
-        int wordLength = Random.Range(4, 7);
+        int wordLength = 4;
         targetWord = GenerateRandomString(wordLength);
         targetWordText.text = "Type: " + targetWord;
 
