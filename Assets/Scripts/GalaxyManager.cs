@@ -13,6 +13,7 @@ public class GalaxyManager : MonoBehaviour
     [SerializeField] private float stabilityPerCaptcha = 15.0f;
 
     [SerializeField] private int maxGalaxies = 3;
+    [SerializeField] private List<GameObject> galaxyObjects; // ¡NUEVO! Las imágenes físicas
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private RectTransform spaceArea;
     private int currentGalaxies;
@@ -65,31 +66,57 @@ public class GalaxyManager : MonoBehaviour
         currentGalaxies--;
         Debug.Log($"¡PUUFFF! Una galaxia explotó. Quedan: {currentGalaxies}");
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlaySFX(AudioManager.Instance.explosionSound);
         if (ScreenShake.Instance != null) ScreenShake.Instance.TriggerShake();
 
         if (explosionPrefab != null && spaceArea != null)
         {
+            Vector2 explosionPos = Vector2.zero;
+
+            // Si hay galaxias físicas en la lista, apagamos una y tomamos su posición
+            if (galaxyObjects != null && galaxyObjects.Count > 0)
+            {
+                int index = Random.Range(0, galaxyObjects.Count);
+                GameObject doomedGalaxy = galaxyObjects[index];
+                
+                RectTransform doomedRect = doomedGalaxy.GetComponent<RectTransform>();
+                if (doomedRect != null) explosionPos = doomedRect.anchoredPosition;
+                
+                doomedGalaxy.SetActive(false); // Desaparece la galaxia
+                galaxyObjects.RemoveAt(index);
+            }
+            else // Si se te olvidó asignarlas, explota al azar
+            {
+                float limiteX = spaceArea.rect.width / 2f;
+                float limiteY = spaceArea.rect.height / 2f;
+                explosionPos = new Vector2(Random.Range(-limiteX, limiteX), Random.Range(-limiteY, limiteY));
+            }
+
             GameObject newExplosion = Instantiate(explosionPrefab, spaceArea);
             RectTransform explRect = newExplosion.GetComponent<RectTransform>();
-
-            float limiteX = spaceArea.rect.width / 2f;
-            float limiteY = spaceArea.rect.height / 2f;
-
-            float randomX = Random.Range(-limiteX, limiteX);
-            float randomY = Random.Range(-limiteY, limiteY);
-
-            explRect.anchoredPosition = new Vector2(randomX, randomY);
+            explRect.anchoredPosition = explosionPos;
         }
 
         if (currentGalaxies <= 0)
         {
             isGameOver = true;
             Debug.Log("GAME OVER: Colapso Universal. Te despiden.");
+            if (GameOverManager.Instance != null)
+            {
+                GameOverManager.Instance.TriggerGameOver("UNIVERSAL COLLAPSE");
+            }
         }
         else
         {
             currentStability = maxStability;
         }
     }
+
+    public void ResetStability()
+    {
+        currentStability = maxStability;
+        if (stabilitySlider != null) stabilitySlider.value = currentStability;
+    }
+
 
 }

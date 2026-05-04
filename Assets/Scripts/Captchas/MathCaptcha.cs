@@ -47,6 +47,7 @@ public class MathCaptcha : MonoBehaviour
         }
         else
         {
+            GetComponent<CaptchaWindow>().TriggerError();
             GenerateProblem();
         }
     }

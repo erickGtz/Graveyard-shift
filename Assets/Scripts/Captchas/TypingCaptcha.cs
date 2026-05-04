@@ -11,7 +11,7 @@ public class TypingCaptcha : MonoBehaviour
     private string targetWord;
     void Start()
     {
-        int wordLength = Random.Range(4, 7);
+        int wordLength = 4;
         targetWord = GenerateRandomString(wordLength);
         targetWordText.text = "Type: " + targetWord;
 
@@ -23,6 +23,11 @@ public class TypingCaptcha : MonoBehaviour
         if (currentText.ToUpper() == targetWord)
         {
             GetComponent<CaptchaWindow>().ResolveCaptcha();
+        }
+        else if (currentText.Length >= targetWord.Length)
+        {
+            GetComponent<CaptchaWindow>().TriggerError();
+            inputField.text = ""; // Borra el texto para que lo vuelva a intentar
         }
     }
 
