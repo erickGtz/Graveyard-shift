@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip monkeyEatSound;
     public AudioClip timeTravelSound;
     public AudioClip gameOverSound;
+    public AudioClip winSound;
 
     void Awake()
     {
@@ -44,5 +45,15 @@ public class AudioManager : MonoBehaviour
     public void PlayClick()
     {
         PlaySFX(clickSound);
+    }
+
+    public void StopMusic()
+    {
+        if (bgmSource != null) bgmSource.Stop();
+    }
+
+    public void PlayMusic()
+    {
+        if (bgmSource != null && !bgmSource.isPlaying) bgmSource.Play();
     }
 }

@@ -24,7 +24,7 @@ public class TimeTravelManager : MonoBehaviour
 
     [Header("Estado")]
     public int weirdnessLevel = 0;
-    private int currentHour = 5;
+    private int currentHour = 12; // Iniciamos a medianoche
     private int currentMinute = 0;
 
     void Awake()
@@ -50,8 +50,8 @@ public class TimeTravelManager : MonoBehaviour
     {
         clockTimer += Time.deltaTime;
         
-        // Cada 10 segundos reales, avanza 15 minutos en el juego
-        if (clockTimer >= 10f)
+        // Cada 5 segundos reales, avanza 15 minutos en el juego (6 horas = 2 minutos reales)
+        if (clockTimer >= 5f)
         {
             clockTimer = 0f;
             currentMinute += 15;
@@ -61,8 +61,14 @@ public class TimeTravelManager : MonoBehaviour
                 currentMinute = 0;
                 currentHour++;
                 
-                // Si llega a las 13, se reinicia a la 1 (formato 12 horas)
+                // Si llega a las 13, se reinicia a la 1
                 if (currentHour > 12) currentHour = 1;
+
+                // CONDICIÓN DE VICTORIA: Si llega a las 6 AM, ganas
+                if (currentHour == 6)
+                {
+                    if (GameOverManager.Instance != null) GameOverManager.Instance.TriggerWin();
+                }
             }
             
             UpdateClock();
@@ -88,7 +94,7 @@ public class TimeTravelManager : MonoBehaviour
             }
         }
 
-        currentHour -= Random.Range(1, 3);
+        currentHour -= 1;
         if (currentHour <= 0) currentHour += 12;
         UpdateClock();
 
