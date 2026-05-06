@@ -12,15 +12,15 @@ You are a caretaker of time and space, stationed in the deep cosmos. You've just
 ## Security Camera Footage
 
 **1. Clocking In:** Welcome to the Banana Corp mainframe.  
-![Clocking In](https://img.itch.zone/aW1nLzI3MDgzMDg4LmdpZg==/original/1otnYL.gif)
+<img src="https://img.itch.zone/aW1nLzI3MDgzMDg4LmdpZg==/original/1otnYL.gif" width="500" alt="Clocking In">
 
 **2. Virus Outbreak:** Resolve the CAPTCHAs before the galaxies collapse!  
-![Virus Outbreak](https://img.itch.zone/aW1nLzI3MDgzMDk4LmdpZg==/original/QPvgTD.gif)
+<img src="https://img.itch.zone/aW1nLzI3MDgzMDk4LmdpZg==/original/QPvgTD.gif" width="500" alt="Virus Outbreak">
 
 **3. Virtual Monkey:** Don't forget to feed him.  
-![Virtual Monkey](https://img.itch.zone/aW1nLzI3MDgzMTAxLmdpZg==/original/esp2Rw.gif)
+<img src="https://img.itch.zone/aW1nLzI3MDgzMTAxLmdpZg==/original/esp2Rw.gif" width="500" alt="Virtual Monkey">
 
 **4. Spacetime Glitch:** Use the Time Travel window at your own risk.  
-![Time Travel Window](Media/time.gif)
+<img src="Media/time.gif" width="500" alt="Time Travel Window">
 
 *Created for the Mini Jame Gam #54*
